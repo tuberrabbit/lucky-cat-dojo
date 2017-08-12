@@ -2,7 +2,9 @@ import * as Crawler from 'crawler';
 import * as _ from 'lodash';
 import * as Https from 'https';
 
-const sendLowPB2Dingding = () => {
+import { blackList } from './constants';
+
+const sendLowPB = () => {
   const result = {};
 
   const instance = new Crawler({
@@ -54,23 +56,31 @@ const sendLowPB2Dingding = () => {
   });
 
   //上证A
-  instance.queue(_.range(600000, 604000).map(id => ({
-      uri: `http://quote.eastmoney.com/sh${id}.html`,
-      id
-    })
-  ));
+  instance.queue(
+    _.chain(_.range(600000, 604000))
+     .reject(id => _.includes(blackList.sh, id))
+     .map(id => ({
+       uri: `http://quote.eastmoney.com/sh${id}.html`,
+       id
+     }))
+     .value()
+  );
 
   //深证A1
-  instance.queue(_.range(300001, 300692).map(id => ({
-      uri: `http://quote.eastmoney.com/sz${id}.html`,
-      id
-    })
-  ));
+  instance.queue(
+    _.chain(_.range(300001, 300692))
+     .reject(id => _.includes(blackList.sz, id))
+     .map(id => ({
+       uri: `http://quote.eastmoney.com/sz${id}.html`,
+       id
+     }))
+     .value()
+  );
 
   //深证A2
   instance.queue(
     _.chain(_.range(1, 2891))
-     .reject(id => _.includes([706, 742, 747, 770, 934, 2527], id))
+     .reject(id => _.includes(blackList.sz, id))
      .map(id => _.padStart(id, 6, '0'))
      .map(id => ({
        uri: `http://quote.eastmoney.com/sz${id}.html`,
@@ -80,4 +90,4 @@ const sendLowPB2Dingding = () => {
   );
 };
 
-export default sendLowPB2Dingding;
+export default sendLowPB;
