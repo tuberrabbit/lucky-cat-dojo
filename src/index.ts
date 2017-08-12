@@ -1,3 +1,3 @@
-import sendLowPB2Dingding from './lowPB';
+import sendRegistrationDay from './registrationDay';
 
-console.log(sendLowPB2Dingding);
+sendRegistrationDay();
