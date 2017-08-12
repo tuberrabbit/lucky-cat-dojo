@@ -58,11 +58,15 @@ const sendRegistrationDay = () => {
   });
 
   //上证A
-  instance.queue(_.range(600000, 604000).map(id => ({
-      uri: `http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sh${id}`,
-      id
-    })
-  ));
+  instance.queue(
+    _.chain(_.range(600000, 604000))
+     .reject(id => _.includes([601597, 601614, 601617, 601622, 602397], id))
+     .map(id => ({
+       uri: `http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sh${id}`,
+       id
+     }))
+     .value()
+  );
 
   //深证A1
   instance.queue(_.range(300001, 300692).map(id => ({
