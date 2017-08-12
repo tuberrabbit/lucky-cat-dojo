@@ -1,0 +1,28 @@
+{
+  "name": "lucky-cat-dojo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuberrabbit/lucky-cat-dojo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuberrabbit/lucky-cat-dojo/issues"
+  },
+  "homepage": "https://github.com/tuberrabbit/lucky-cat-dojo#readme",
+  "dependencies": {
+    "crawler": "^1.0.5",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.20",
+    "typescript": "^2.4.2"
+  }
+}

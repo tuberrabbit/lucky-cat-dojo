@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "moduleResolution": "Node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "pretty": true,
+        "suppressExcessPropertyErrors": true,
+        "outDir": "dist/",
+        "baseUrl": "src/",
+        "allowJs": true,
+        "checkJs": true,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "compileOnSave": true
+}
