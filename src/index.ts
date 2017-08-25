@@ -1,3 +1,3 @@
-import sendRegistrationDay from './registrationDay';
+import crawler from './lowPB';
 
-sendRegistrationDay();
+crawler();
