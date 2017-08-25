@@ -8,7 +8,7 @@ const sendLowPB = () => {
   const result = {};
 
   const instance = new Crawler({
-    maxConnections: 1,
+    maxConnections: 3,
     callback: (error, res, done) => {
       if (error) {
         console.log(error);
