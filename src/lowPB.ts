@@ -1,6 +1,7 @@
 import * as Crawler from 'crawler';
 import * as _ from 'lodash';
 import * as Https from 'https';
+import * as fs from 'fs';
 
 import { blackList } from './constants';
 
@@ -24,10 +25,38 @@ const sendLowPB = () => {
   });
 
   instance.on('drain', () => {
+    let lastResult = {};
+    fs.readFile('./lastLowPB.json', (err, data) => {
+      if (err) {
+        return console.log(err);
+      }
+      lastResult = data;
+    });
+
+    const increasedResult = _.reduce(result, (diffResult, value, key) => {
+      if (!lastResult[key]) {
+        diffResult[key] = value;
+      }
+      return diffResult;
+    }, {});
+
+    const subtractedResult = _.reduce(lastResult, (diffResult, value, key) => {
+      if (!result[key]) {
+        diffResult[key] = value;
+      }
+      return diffResult;
+    }, {});
+
+    fs.writeFile('./lastLowPB.json', result, err => {
+      if (err) {
+        return console.log(err);
+      }
+    });
+
     const body = JSON.stringify({
       'msgtype': 'text',
       'text': {
-        'content': JSON.stringify(result)
+        'content': JSON.stringify({ increasedResult, subtractedResult })
       },
       'at': {
         'atMobiles': [
