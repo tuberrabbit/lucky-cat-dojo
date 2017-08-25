@@ -4,6 +4,7 @@ import * as Https from 'https';
 import * as fs from 'fs';
 
 import { blackList } from './constants';
+import { send2DingDing } from 'request';
 
 const sendLowPB = () => {
   const result = {};
@@ -33,6 +34,12 @@ const sendLowPB = () => {
       lastResult = data;
     });
 
+    fs.writeFile('./lastLowPB.json', result, err => {
+      if (err) {
+        return console.log(err);
+      }
+    });
+
     const increasedResult = _.reduce(result, (diffResult, value, key) => {
       if (!lastResult[key]) {
         diffResult[key] = value;
@@ -47,41 +54,7 @@ const sendLowPB = () => {
       return diffResult;
     }, {});
 
-    fs.writeFile('./lastLowPB.json', result, err => {
-      if (err) {
-        return console.log(err);
-      }
-    });
-
-    const body = JSON.stringify({
-      'msgtype': 'text',
-      'text': {
-        'content': JSON.stringify({ increasedResult, subtractedResult })
-      },
-      'at': {
-        'atMobiles': [
-          '18200391331'
-        ],
-        'isAtAll': false
-      }
-    });
-
-    const request = Https.request({
-      hostname: 'oapi.dingtalk.com',
-      path: '/robot/send?access_token=7145a5aed8eef4a471ab57bcd382ebd1210811df3db8c3edbe269b375a69723c',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }, res => {
-      res.setEncoding('utf8');
-      res.on('data', data => {
-        console.log('save result', data);
-      });
-    });
-
-    request.write(body);
-    request.end();
+    send2DingDing({ increasedResult, subtractedResult });
   });
 
   //上证A
