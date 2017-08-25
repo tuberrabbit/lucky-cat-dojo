@@ -2,7 +2,7 @@ import * as Crawler from 'crawler';
 import * as _ from 'lodash';
 import * as fs from 'fs';
 
-import { send2DingDing } from 'request';
+import { send2DingDing } from './request';
 import { buildQueue } from './utils';
 
 const sendLowPB = () => {
