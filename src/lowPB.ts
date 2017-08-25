@@ -33,7 +33,7 @@ const sendLowPB = () => {
       lastResult = data;
     });
 
-    fs.writeFile('./lastLowPB.json', result, err => {
+    fs.writeFile('./lastLowPB.json', JSON.stringify(result), err => {
       if (err) {
         return console.log(err);
       }
