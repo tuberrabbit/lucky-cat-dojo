@@ -1,9 +1,8 @@
 import * as Crawler from 'crawler';
 import * as _ from 'lodash';
-import * as Https from 'https';
 
-import { blackList } from './constants';
 import { send2DingDing } from './request';
+import { buildQueue } from './utils';
 
 const sendRegistrationDay = () => {
   const result = {};
@@ -32,40 +31,9 @@ const sendRegistrationDay = () => {
     send2DingDing(result);
   });
 
-  //上证A
-  instance.queue(
-    _.chain(_.range(600000, 604000))
-     .reject(id => _.includes(blackList.sh, id))
-     .map(id => ({
-       uri: `http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sh${id}`,
-       id
-     }))
-     .value()
-  );
-
-  //深证A1
-  instance.queue(
-    _.chain(_.range(300001, 300692))
-     .reject(id => _.includes(blackList.sz, id))
-     .map(id => ({
-       uri: `http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sz${id}`,
-       id
-     }))
-     .value()
-  );
-
-  //深证A2
-  instance.queue(
-    _.chain(_.range(1, 2891))
-     .reject(id => _.includes(blackList.sz, id))
-     .map(id => _.padStart(id, 6, '0'))
-     .map(id => ({
-       uri: `http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sz${id}`,
-       id
-     }))
-     .value()
-  );
-
+  buildQueue(instance,
+    'http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sh${id}',
+    'http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sz${id}');
 };
 
 export default sendRegistrationDay;

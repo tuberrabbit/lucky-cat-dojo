@@ -1,10 +1,9 @@
 import * as Crawler from 'crawler';
 import * as _ from 'lodash';
-import * as Https from 'https';
 import * as fs from 'fs';
 
-import { blackList } from './constants';
 import { send2DingDing } from 'request';
+import { buildQueue } from './utils';
 
 const sendLowPB = () => {
   const result = {};
@@ -57,39 +56,9 @@ const sendLowPB = () => {
     send2DingDing({ increasedResult, subtractedResult });
   });
 
-  //上证A
-  instance.queue(
-    _.chain(_.range(600000, 604000))
-     .reject(id => _.includes(blackList.sh, id))
-     .map(id => ({
-       uri: `http://quote.eastmoney.com/sh${id}.html`,
-       id
-     }))
-     .value()
-  );
-
-  //深证A1
-  instance.queue(
-    _.chain(_.range(300001, 300692))
-     .reject(id => _.includes(blackList.sz, id))
-     .map(id => ({
-       uri: `http://quote.eastmoney.com/sz${id}.html`,
-       id
-     }))
-     .value()
-  );
-
-  //深证A2
-  instance.queue(
-    _.chain(_.range(1, 2891))
-     .reject(id => _.includes(blackList.sz, id))
-     .map(id => _.padStart(id, 6, '0'))
-     .map(id => ({
-       uri: `http://quote.eastmoney.com/sz${id}.html`,
-       id
-     }))
-     .value()
-  );
+  buildQueue(instance,
+    'http://quote.eastmoney.com/sh${id}.html',
+    'http://quote.eastmoney.com/sz${id}.html');
 };
 
 export default sendLowPB;
