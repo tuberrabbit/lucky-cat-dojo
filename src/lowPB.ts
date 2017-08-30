@@ -25,19 +25,8 @@ const sendLowPB = () => {
   });
 
   instance.on('drain', () => {
-    let lastResult = {};
-    fs.readFile('./lastLowPB.json', (err, data) => {
-      if (err) {
-        return console.log(err);
-      }
-      lastResult = data;
-    });
-
-    fs.writeFile('./lastLowPB.json', JSON.stringify(result), err => {
-      if (err) {
-        return console.log(err);
-      }
-    });
+    const lastResult = fs.readFileSync('./lastLowPB.json');
+    fs.writeFileSync('./lastLowPB.json', JSON.stringify(result));
 
     const increasedResult = _.reduce(result, (diffResult, value, key) => {
       if (!lastResult[key]) {
