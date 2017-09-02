@@ -25,7 +25,7 @@ const sendLowPB = () => {
   });
 
   instance.on('drain', () => {
-    const lastResult = fs.readFileSync('./lastLowPB.json');
+    const lastResult = JSON.parse(fs.readFileSync('./lastLowPB.json', 'utf8') || '{}');
     fs.writeFileSync('./lastLowPB.json', JSON.stringify(result));
 
     const increasedResult = _.reduce(result, (diffResult, value, key) => {
