@@ -8,7 +8,7 @@ const sendRegistrationDay = () => {
   const result = {};
 
   const instance = new Crawler({
-    maxConnections: 3,
+    maxConnections: 1,
     callback: (error, res, done) => {
       if (error) {
         console.log(error);
