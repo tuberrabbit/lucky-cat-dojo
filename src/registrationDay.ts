@@ -15,10 +15,10 @@ const sendRegistrationDay = () => {
         done();
       }
 
-      const $ = res.$;
-      _.forEach($('.registrationDay'), item => {
-        if (new Date($(item).text()) > new Date()) {
-          result[res.options.id] = $(item).text();
+      const data = _.get(JSON.parse(res.body), 'Result.fhyx', []);
+      _.forEach(data, item => {
+        if (new Date(item.gqdjr) > new Date()) {
+          result[res.options.id] = item.gqdjr;
           return false;
         }
       });
@@ -32,8 +32,8 @@ const sendRegistrationDay = () => {
   });
 
   buildQueue(instance,
-    'http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sh${id}',
-    'http://f10.eastmoney.com/f10_v2/BonusFinancing.aspx?code=sz${id}');
+    'http://emweb.securities.eastmoney.com/PC_HSF10/BonusFinancing/BonusFinancingAjax?code=sh${id}',
+    'http://emweb.securities.eastmoney.com/PC_HSF10/BonusFinancing/BonusFinancingAjax?code=sz${id}');
 };
 
 export default sendRegistrationDay;
