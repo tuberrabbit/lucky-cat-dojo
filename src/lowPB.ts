@@ -7,12 +7,14 @@ import { buildQueue } from './utils';
 
 const sendLowPB = () => {
   const result = {};
+  const err = {};
 
   const instance = new Crawler({
     maxConnections: 2,
     callback: (error, res, done) => {
+      console.log(res.options.id);
       if (error) {
-        console.log(error);
+        err[res.options.id] = res.options.uri;
         done();
       }
       const $ = res.$;
@@ -25,6 +27,7 @@ const sendLowPB = () => {
   });
 
   instance.on('drain', () => {
+    console.log(err);
     const lastResult = JSON.parse(fs.readFileSync('./lastLowPB.json', 'utf8') || '{}');
     fs.writeFileSync('./lastLowPB.json', JSON.stringify(result));
 
