@@ -9,6 +9,7 @@ const sendRegistrationDay = () => {
 
   const instance = new Crawler({
     maxConnections: 1,
+    jQuery: false,
     callback: (error, res, done) => {
       if (error) {
         console.log(error);
